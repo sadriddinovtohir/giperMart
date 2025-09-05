@@ -3,9 +3,9 @@ import MainLayout from "./layout/main-layout";
 import Home from "./page/home/home";
 import { loadState } from "./config/store";
 import Login from "./page/public/login/login";
-import React from "react";
 import Merket from "./page/merket";
 import Campaign from "./page/campaign";
+import SingleProduct from "./components/single-product/singleProduct";
 
 function App() {
  const token = loadState("user")
@@ -16,6 +16,7 @@ function App() {
       <Route index element={<Home/>}/>
       <Route path="market" element={<Merket/>}/>
       <Route path="Campaign" element={<Campaign/>}/>
+      <Route path="SingleProduct/:id" element={<SingleProduct/>}/>
       </Route>
     </Routes> : <Login/>}
     </>

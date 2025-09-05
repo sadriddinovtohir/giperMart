@@ -15,7 +15,7 @@ export default function HomeCotelog() {
     speed: 500,
     autoplay: true,
     slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToScroll: 3,
   };
   return (
     <div>
