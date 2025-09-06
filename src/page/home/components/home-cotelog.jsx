@@ -16,6 +16,37 @@ export default function HomeCotelog() {
     autoplay: true,
     slidesToShow: 4,
     slidesToScroll: 3,
+      responsive: [
+    {
+      breakpoint: 1350, 
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        infinite: true,
+      },
+    },
+    {
+      breakpoint: 1050, 
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 738, 
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+    {
+      breakpoint: 474, 
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
   };
   return (
     <div>
@@ -30,6 +61,7 @@ export default function HomeCotelog() {
                 direction={"row"}
                 alignItems={"center"}
                 gap={"15px"}
+                justifyContent={"center"}
               >
                 <img
                   style={{ width: "95px", height: "95px" }}
