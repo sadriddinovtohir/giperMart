@@ -3,19 +3,28 @@ import { Button, Container, Stack, Typography } from '@mui/material'
 import { loadState } from '../config/store'
 import CardSum from './components/card-sum'
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export default function Merket() {
   const { dataCount } = useSelector((state) => state.productReduser);
+// if(dataCount == 0){
+//     return <Container> <Typography variant='h6' textAlign={"center"} my={"50px"} >siz hali maxsulod xarid qilmadingiz</Typography>
+//     <Stack direction={"row"} justifyContent={"center"} pb={"30px"}>
+//       <Link to={"/"}>
+//       <Button variant='contained' >bosh sahifaqa qaytish</Button></Link>
+//     </Stack>
+//     </Container>
+//   }
   const data = loadState("product")
   const nav = useNavigate()
 if(dataCount == 0){
-  return nav("/")
+  return <Link to={"/"}></Link>
+    
 }
   return (
   <Container>
       <Stack direction={"row"} justifyContent={"space-between"}>
 <Stack>
-        {data?.dataList.map((item, index)=> <CardSum key={index} {...item}/> )}
+       {dataCount ?  <>{data?.dataList.map((item, index)=> <CardSum key={index} {...item}/> )}</> : "malumotlar yoq"}
 </Stack>
     <Stack
         width={"330px"}
@@ -36,3 +45,4 @@ if(dataCount == 0){
   </Container>
   )
 }
+

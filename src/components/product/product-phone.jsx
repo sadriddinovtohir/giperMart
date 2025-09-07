@@ -3,12 +3,13 @@ import React from 'react'
 import Card_icons from '../../assets/icon/card_icons'
 import Like_icons from '../../assets/icon/like_icons'
 
-export default function ProductPhone({item}) {
+export default function ProductPhone({item,path}) {
   return (
     <div>
+      
       <Stack
                   width={"234px"}
-                  height={"273px"}
+                  height={"300px"}
                   justifyContent={"space-between"}
                   style={{ paddingLeft: "26px", paddingRight: "26px" }}
                   key={item.id}
@@ -22,7 +23,7 @@ export default function ProductPhone({item}) {
                       />
                       <Like_icons />
                     </Stack>
-                    <Typography variant="h6" >{item.title}</Typography>
+                   {path == "phones"? <Typography variant="h2" >{item.title}</Typography> :<Typography variant="h6" fontSize={"16px"} >{item.title}</Typography>} 
                   </Stack>
                   <Stack
                     direction={"row"}

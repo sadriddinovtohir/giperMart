@@ -41,7 +41,16 @@ export default function Home() {
           )}
         </Container>
       </div> : null}
-      
+       <div className="phone">
+        <Container>
+          <Smart  name={"Смартфоны и планшеты"} path={"phones"} />
+        </Container>
+      </div>
+       <div className="notebook">
+        <Container>
+          <Smart  name={"Ноутбуки, планшеты и компьютеры"} path={"computers"} />
+        </Container>
+      </div>
     </main>
   );
 }

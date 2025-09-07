@@ -1,5 +1,4 @@
 import {
-  Button,
   Container,
   IconButton,
   Stack,
@@ -7,8 +6,6 @@ import {
 } from "@mui/material";
 import useGetPhone from "../queriy/useGetPhone";
 import Slider from "react-slick";
-import Like_icons from "../../../assets/icon/like_icons";
-import Card_icons from "../../../assets/icon/card_icons";
 import Left_icons from "../../../assets/icon/left_icons";
 import Right_icons from "../../../assets/icon/right_icons";
 import ProductPhone from "../../../components/product/product-phone";
