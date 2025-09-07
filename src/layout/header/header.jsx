@@ -19,6 +19,7 @@ import Like_icons from "../../assets/icon/like_icons";
 import Card_icons from "../../assets/icon/card_icons";
 import React from "react";
 import menu_icons_dr from "../../assets/svg/menu.svg";
+import { useSelector } from "react-redux";
 export default function Header() {
   const [open, setopen] = React.useState(false);
   const sizedrower = useMediaQuery("(max-width:1229px)");
@@ -26,6 +27,7 @@ export default function Header() {
   const inputs = useMediaQuery("(min-width:695px)");
   const form = useMediaQuery("(min-width:540px)");
   const nav = useNavigate()
+   const { dataCount } = useSelector((state) => state.productReduser);
   const toggleDrawer = (data) => {
     setopen(data);
   };
@@ -128,7 +130,7 @@ export default function Header() {
                       color: "white",
                     },
                   }}
-                  badgeContent={0}
+                  badgeContent={dataCount}
                   showZero
                   >
                   <Card_icons />
@@ -202,7 +204,9 @@ export default function Header() {
                     <Stack direction={"row"} gap={"30px"}>
                       {sizedrower ? (
                         <Button  >
+               <Button onClick={()=>nav("/market")}>
                 <Stack alignItems={"center"}>
+
                 <Badge
                   color="secondary"
                   sx={{
@@ -211,17 +215,18 @@ export default function Header() {
                       color: "white",
                     },
                   }}
-                  badgeContent={0}
+                  badgeContent={dataCount}
                   showZero
                   >
                   <Card_icons />
                 </Badge>
                 <Typography color="black">Корзина</Typography>
               </Stack>
+               </Button>
                   </Button>
                       ) : null}
                       {sizedrowers ? (
-                        <>
+                        <Stack direction={"row"} alignItems={"center"} gap={"50px"}>
                           <Stack alignItems={"center"}>
                             <User_icons />
                             <Typography>Войти</Typography>
@@ -230,7 +235,7 @@ export default function Header() {
                             <Like_icons />
                             <Typography>Избранное</Typography>
                           </Stack>
-                        </>
+                        </Stack>
                       ) : null}
                     </Stack>
                     {!inputs ? (

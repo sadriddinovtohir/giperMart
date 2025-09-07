@@ -1,9 +1,24 @@
+
 import React from 'react'
+import { useParams } from 'react-router-dom'
+import useGetPhone from '../../page/home/queriy/useGetPhone'
+import { Container } from '@mui/material'
+import ProductDataCard from '../product/product-dataCard'
 
 export default function SingleProduct() {
+  const {id} = useParams()
+  const {data, isError, error, isLoading} = useGetPhone("phones")
+    if(isError){
+      return <h1>{error.message}</h1>
+    }
+  const product = data?.find((item)=> String(item.id) === id);
+  
+  
   return (
-    <div>
-      product
-    </div>
+   <Container>
+    {isLoading ? <h1>loading</h1> :  <div>
+      <ProductDataCard product={product}/>
+    </div>}
+   </Container>
   )
 }
