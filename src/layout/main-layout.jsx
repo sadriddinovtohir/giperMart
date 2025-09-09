@@ -1,25 +1,21 @@
-import { Box, Stack } from '@mui/material'
-import React from 'react'
-import Header from './header/header'
-import { Outlet } from 'react-router-dom'
-import Footer from './footer/footer'
+import { Box, Stack } from "@mui/material";
+import React from "react";
+import Header from "./header/header";
+import { Outlet } from "react-router-dom";
+import Footer from "./footer/footer";
 
 export default function MainLayout() {
   return (
-    <Stack justifyContent={"space-between"} height={"100vh"}>
-       <Stack gap={"10px"}>
-         <Box>
-            <Header/>
-        </Box>
+    <Stack justifyContent={"space-between"}>
+      <Box>
+        <Header />
         <main>
-            <Outlet/>
+          <Outlet />
         </main>
-
+      </Box>
+      <Box>
+        <Footer />
+      </Box>
     </Stack>
-    <Box>
-        <Footer/>
-
-    </Box>
-    </Stack>
-  )
+  );
 }

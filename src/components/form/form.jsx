@@ -11,6 +11,9 @@ import { saveState } from "../../config/store";
 import { useNavigate } from "react-router-dom";
 import { Search } from "../../config/ui/style";
 import Search_icons from "../../assets/icon/search_icons";
+import nutfications from "../../assets/notfication/nutfications.mp3";
+import { toast } from "react-toastify";
+import { playSound } from "../notfication/not";
 
 export default function Form({ page }) {
   const { handleSubmit, register, reset } = useForm();
@@ -20,6 +23,9 @@ export default function Form({ page }) {
   const submit = (data) => {
     if (page == "login") {
       saveState("user", data);
+      nav("/");
+      toast.success("✅ siz login dan muofaqiyatliy o'tdingiz");
+      playSound(nutfications);
     }
 
     reset();

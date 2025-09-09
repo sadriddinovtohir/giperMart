@@ -1,7 +1,9 @@
 import {
   Badge,
+  Box,
   Button,
   Container,
+  Dialog,
   Drawer,
   Grid,
   Stack,
@@ -20,68 +22,109 @@ import Card_icons from "../../assets/icon/card_icons";
 import React from "react";
 import menu_icons_dr from "../../assets/svg/menu.svg";
 import { useSelector } from "react-redux";
+import useCatalogGet from "../../page/home/queriy/useCatalogGet";
+import Catalog from "./components/catalog";
 export default function Header() {
   const [open, setopen] = React.useState(false);
   const sizedrower = useMediaQuery("(max-width:1229px)");
   const sizedrowers = useMediaQuery("(max-width:1021px)");
   const inputs = useMediaQuery("(min-width:695px)");
   const form = useMediaQuery("(min-width:540px)");
-  const nav = useNavigate()
-   const { dataCount } = useSelector((state) => state.productReduser);
+  const nav = useNavigate();
+  const { dataCount } = useSelector((state) => state.productReduser);
   const toggleDrawer = (data) => {
     setopen(data);
   };
+  const { data, isLoading, isError, error } = useCatalogGet();
+  const [modal, setmodal] = React.useState(false);
+  const btn_item = () => {
+    setmodal(true);
+  };
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
   return (
     <header>
-      {inputs ?<div className="header_top">
-        <Container>
-          <Stack
-            py={"8px"}
-            gap={"24px"}
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"end"}
-          >
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
+      <Dialog maxWidth="100%" open={modal} onClose={() => setmodal(false)}>
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          flexWrap={"wrap"}
+          padding={"30px"}
+          bgcolor={"white"}
+          width={"900px"}
+          gap={"20px"}
+        >
+          {isLoading ? (
+            <h1>loading</h1>
+          ) : (
+            <>
+              {data?.map((item) => (
+                <Catalog
+                  click={setmodal}
+                  key={item.id}
+                  img={item.img}
+                  id={item.id}
+                  text={item.text}
+                  name={item.name}
+                />
+              ))}
+            </>
+          )}
+        </Stack>
+      </Dialog>
+      {inputs ? (
+        <div className="header_top">
+          <Container>
+            <Stack
+              py={"8px"}
+              gap={"24px"}
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"end"}
             >
-              Доставка и оплата
-            </Typography>
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
-            >
-              Пункты выдачи
-            </Typography>
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
-            >
-              Поддержка
-            </Typography>
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
-            >
-              <a
-                style={{
-                  textDecoration: "none",
-                  color: COLOR["--m3-sys-light-on-background"],
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-                href="tel:998 90 253 77 53"
+              <Typography
+                fontSize={"16px"}
+                color={COLOR["--m3-sys-light-on-background"]}
               >
-                <Tel_icons />
-                +998 90 253 77 53
-              </a>
-            </Typography>
-          </Stack>
-        </Container>
-      </div> : null }
-      
+                Доставка и оплата
+              </Typography>
+              <Typography
+                fontSize={"16px"}
+                color={COLOR["--m3-sys-light-on-background"]}
+              >
+                Пункты выдачи
+              </Typography>
+              <Typography
+                fontSize={"16px"}
+                color={COLOR["--m3-sys-light-on-background"]}
+              >
+                Поддержка
+              </Typography>
+              <Typography
+                fontSize={"16px"}
+                color={COLOR["--m3-sys-light-on-background"]}
+              >
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: COLOR["--m3-sys-light-on-background"],
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                  href="tel:998 90 253 77 53"
+                >
+                  <Tel_icons />
+                  +998 90 253 77 53
+                </a>
+              </Typography>
+            </Stack>
+          </Container>
+        </div>
+      ) : null}
+
       <div className="header">
         <Container>
           <Stack
@@ -90,54 +133,68 @@ export default function Header() {
             alignItems={"center"}
             py={"17px"}
           >
-            <img
-              style={{ maxWidth: "130px" }}
-              src={header_svg}
-              alt="header_img"
-            />
+            <Link to={"/"}>
+              <img
+                style={{ maxWidth: "130px" }}
+                src={header_svg}
+                alt="header_img"
+              />
+            </Link>
             {inputs ? (
-              <Button sx={{ maxWidth: "150px" }} variant="contained">
-                <Stack direction={"row"} gap={"12px"} alignItems={"center"}>
-                  <Menu_icons />
-                  Каталог
-                </Stack>
-              </Button>
+              <Stack>
+                <Button
+                  onClick={btn_item}
+                  sx={{ maxWidth: "150px" }}
+                  variant="contained"
+                >
+                  <Stack direction={"row"} gap={"12px"} alignItems={"center"}>
+                    <Menu_icons />
+                    Каталог
+                  </Stack>
+                </Button>
+              </Stack>
             ) : null}
-{form ? <Form page={"header"} /> : null }
-            
+
+            {form ? <Form page={"header"} /> : null}
+
             {!sizedrowers ? (
               <>
-                <Stack alignItems={"center"}>
-                  <User_icons />
-                  <Typography>Войти</Typography>
-                </Stack>
+                <Link
+                  style={{ color: "black", textDecoration: "none" }}
+                  to={"/profile"}
+                >
+                  <Stack alignItems={"center"}>
+                    <User_icons />
+                    <Typography>Войти</Typography>
+                  </Stack>
+                </Link>
                 <Stack alignItems={"center"}>
                   <Like_icons />
-                  <Typography>Избранное</Typography>
+                  <Typography color="#000">Избранное</Typography>
                 </Stack>
               </>
             ) : (
               ""
             )}
             {!sizedrower ? (
-              <Button  >
-                <Stack onClick={()=>nav("/market")} alignItems={"center"}>
-                <Badge
-                  color="secondary"
-                  sx={{
-                    "& .MuiBadge-badge": {
-                      backgroundColor: "red",
-                      color: "white",
-                    },
-                  }}
-                  badgeContent={dataCount}
-                  showZero
+              <Button>
+                <Stack onClick={() => nav("/market")} alignItems={"center"}>
+                  <Badge
+                    color="secondary"
+                    sx={{
+                      "& .MuiBadge-badge": {
+                        backgroundColor: "red",
+                        color: "white",
+                      },
+                    }}
+                    badgeContent={dataCount}
+                    showZero
                   >
-                  <Card_icons />
-                </Badge>
-                <Typography color="black">Корзина</Typography>
-              </Stack>
-                  </Button>
+                    <Card_icons />
+                  </Badge>
+                  <Typography color="black">Корзина</Typography>
+                </Stack>
+              </Button>
             ) : null}
 
             {sizedrower ? (
@@ -153,84 +210,92 @@ export default function Header() {
                   onClose={() => toggleDrawer(false)}
                 >
                   <Stack p={"30px"}>
-                      {!inputs ?<div className="header_top">
-        <Container>
-          <Stack
-            py={"8px"}
-            gap={"24px"}
-           mb={"30px"}
-            alignItems={"center"}
-            justifyContent={"end"}
-          >
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
-            >
-              Доставка и оплата
-            </Typography>
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
-            >
-              Пункты выдачи
-            </Typography>
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
-            >
-              Поддержка
-            </Typography>
-            <Typography
-              fontSize={"16px"}
-              color={COLOR["--m3-sys-light-on-background"]}
-            >
-              <a
-                style={{
-                  textDecoration: "none",
-                  color: COLOR["--m3-sys-light-on-background"],
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-                href="tel:998 90 253 77 53"
-              >
-                <Tel_icons />
-                +998 90 253 77 53
-              </a>
-            </Typography>
-          </Stack>
-        </Container>
-      </div> : null }
+                    {!inputs ? (
+                      <div className="header_top">
+                        <Container>
+                          <Stack
+                            py={"8px"}
+                            gap={"24px"}
+                            mb={"30px"}
+                            alignItems={"center"}
+                            justifyContent={"end"}
+                          >
+                            <Typography
+                              fontSize={"16px"}
+                              color={COLOR["--m3-sys-light-on-background"]}
+                            >
+                              Доставка и оплата
+                            </Typography>
+                            <Typography
+                              fontSize={"16px"}
+                              color={COLOR["--m3-sys-light-on-background"]}
+                            >
+                              Пункты выдачи
+                            </Typography>
+                            <Typography
+                              fontSize={"16px"}
+                              color={COLOR["--m3-sys-light-on-background"]}
+                            >
+                              Поддержка
+                            </Typography>
+                            <Typography
+                              fontSize={"16px"}
+                              color={COLOR["--m3-sys-light-on-background"]}
+                            >
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: COLOR["--m3-sys-light-on-background"],
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "12px",
+                                }}
+                                href="tel:998 90 253 77 53"
+                              >
+                                <Tel_icons />
+                                +998 90 253 77 53
+                              </a>
+                            </Typography>
+                          </Stack>
+                        </Container>
+                      </div>
+                    ) : null}
                     <Stack direction={"row"} gap={"30px"}>
                       {sizedrower ? (
-                        <Button  >
-               <Button onClick={()=>nav("/market")}>
-                <Stack alignItems={"center"}>
-
-                <Badge
-                  color="secondary"
-                  sx={{
-                    "& .MuiBadge-badge": {
-                      backgroundColor: "red",
-                      color: "white",
-                    },
-                  }}
-                  badgeContent={dataCount}
-                  showZero
-                  >
-                  <Card_icons />
-                </Badge>
-                <Typography color="black">Корзина</Typography>
-              </Stack>
-               </Button>
-                  </Button>
+                        <Button onClick={() => nav("/market")}>
+                          <Stack alignItems={"center"}>
+                            <Badge
+                              color="secondary"
+                              sx={{
+                                "& .MuiBadge-badge": {
+                                  backgroundColor: "red",
+                                  color: "white",
+                                },
+                              }}
+                              badgeContent={dataCount}
+                              showZero
+                            >
+                              <Card_icons />
+                            </Badge>
+                            <Typography color="black">Корзина</Typography>
+                          </Stack>
+                        </Button>
                       ) : null}
                       {sizedrowers ? (
-                        <Stack direction={"row"} alignItems={"center"} gap={"50px"}>
-                          <Stack alignItems={"center"}>
-                            <User_icons />
-                            <Typography>Войти</Typography>
-                          </Stack>
+                        <Stack
+                          direction={"row"}
+                          alignItems={"center"}
+                          gap={"50px"}
+                        >
+                          <Link
+                            style={{ color: "black", textDecoration: "none" }}
+                            to={"/profile"}
+                          >
+                            <Stack alignItems={"center"}>
+                              <User_icons />
+                              <Typography>Войти</Typography>
+                            </Stack>
+                          </Link>
                           <Stack alignItems={"center"}>
                             <Like_icons />
                             <Typography>Избранное</Typography>
