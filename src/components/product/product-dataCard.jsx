@@ -8,18 +8,23 @@ import {
 } from "@mui/material";
 import Like_icons from "../../assets/icon/like_icons";
 import { Text } from "../../config/ui/style";
-import { loadState, saveState } from "../../config/store";
 import { useDispatch } from "react-redux";
 import { addData } from "../../config/store/reduser/productReduser";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import nutfications from '../../assets/notfication/nutfications.mp3'
+import { playSound } from "../notfication/not";
 
 export default function ProductDataCard({ product }) {
-    const nav = useNavigate()
-    const dispatch = useDispatch()
+  const nav = useNavigate();
+  const dispatch = useDispatch();
+   
   const productItem = (product) => {
-    dispatch(addData({...product}))
-        nav("/");
-        alert("siz maxsulotni sotib oldingiz")
+     const newNumber = Number(product.price.split(" ").join(""))
+         dispatch(addData({ ...product, price:newNumber }));
+    nav("/");
+    toast.success("✅ Siz ma'lumotni sotib oldingiz!");
+    playSound(nutfications)
   };
 
   const size = useMediaQuery("(min-width:1072px)");
@@ -63,19 +68,25 @@ export default function ProductDataCard({ product }) {
                   alt="img"
                 />
                 <Stack>
-                  <Typography variant="h6" fontWeight={600}>
-                    Объем памяти
-                  </Typography>
-                  <Box
-                    px={"12px"}
-                    py={"9px"}
-                    border={"3px solid red"}
-                    mb={"20px"}
-                    maxWidth={"116px"}
-                    textAlign={"center"}
-                  >
-                    {product.rame}
-                  </Box>
+                  {product.rame ? (
+                    <>
+                      <Typography variant="h6" fontWeight={600}>
+                        Объем памяти
+                      </Typography>
+                      <Box
+                        px={"12px"}
+                        py={"9px"}
+                        border={"3px solid red"}
+                        mb={"20px"}
+                        maxWidth={"116px"}
+                        textAlign={"center"}
+                      >
+                        {product.rame}
+                      </Box>{" "}
+                    </>
+                  ) : (
+                    ""
+                  )}
 
                   <Typography variant="h6" fontWeight={600} mb={"16px"}>
                     Характеристики
@@ -87,7 +98,15 @@ export default function ProductDataCard({ product }) {
                     fontSize={"16px"}
                   >
                     {" "}
-                    <Text>Цвет:</Text> <Typography>{product.color}</Typography>{" "}
+                    {product.color ? (
+                      <>
+                        {" "}
+                        <Text>Цвет:</Text>{" "}
+                        <Typography>{product.color}</Typography>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -96,7 +115,15 @@ export default function ProductDataCard({ product }) {
                     fontSize={"16px"}
                   >
                     {" "}
-                    <Text>brand:</Text> <Typography>{product.brand}</Typography>{" "}
+                    {product.brand ? (
+                      <>
+                        {" "}
+                        <Text>brand:</Text>{" "}
+                        <Typography>{product.brand}</Typography>{" "}
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -105,8 +132,15 @@ export default function ProductDataCard({ product }) {
                     fontSize={"16px"}
                   >
                     {" "}
-                    <Text>оперативная память:</Text>{" "}
-                    <Typography>{product.rame} </Typography>{" "}
+                    {product.rame ? (
+                      <>
+                        {" "}
+                        <Text>оперативная память:</Text>{" "}
+                        <Typography>{product.rame} </Typography>{" "}
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -212,7 +246,7 @@ export default function ProductDataCard({ product }) {
                 <Typography textAlign={"center"} variant="h4">
                   {product.price} Сум
                 </Typography>
-                <Button 
+                <Button
                   variant="contained"
                   onClick={() => productItem(product)}
                 >

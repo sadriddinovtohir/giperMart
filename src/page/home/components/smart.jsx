@@ -1,16 +1,11 @@
-import {
-  Container,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Container, IconButton, Stack, Typography } from "@mui/material";
 import useGetPhone from "../queriy/useGetPhone";
 import Slider from "react-slick";
 import Left_icons from "../../../assets/icon/left_icons";
 import Right_icons from "../../../assets/icon/right_icons";
 import ProductPhone from "../../../components/product/product-phone";
-import { Link } from "react-router-dom";
-import { COLOR } from "../../../config/ui/color";
+// import { Link } from "react-router-dom";
+// import { COLOR } from "../../../config/ui/color";
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
@@ -54,7 +49,7 @@ function SamplePrevArrow(props) {
   );
 }
 
-export function Smart({ name, path }) {
+export function Smart({ name, path, page }) {
   const { data, isLoading, isError, error } = useGetPhone(path);
 
   if (isError) {
@@ -67,8 +62,8 @@ export function Smart({ name, path }) {
     autoplay: true,
     slidesToShow: 6,
     slidesToScroll: 6,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: page == "computers" ? null : <SampleNextArrow />,
+    prevArrow: page == "computers" ? null : <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 1350,
@@ -101,6 +96,7 @@ export function Smart({ name, path }) {
       },
     ],
   };
+
   return (
     <Container>
       <Stack position={"relative"} my={"48px"}>
@@ -122,16 +118,9 @@ export function Smart({ name, path }) {
                 justifyContent={"center"}
                 direction={"row"}
                 width={"100%"}
+                key={item.id}
               >
-                <Link
-                  style={{
-                    textDecoration: "none",
-                    color: COLOR["--m3-read-only-dark-black"],
-                  }}
-                  to={`/SingleProduct/${item.id}`}
-                >
-                  <ProductPhone item={item} />
-                </Link>
+                <ProductPhone item={item} path={path} />
               </Stack>
             ))
           )}

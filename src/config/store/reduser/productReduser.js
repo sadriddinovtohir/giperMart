@@ -2,36 +2,77 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   dataList: [],
   dataCount: 0,
+  totalPrice: 0,
 };
 const productReduser = createSlice({
   name: "product",
   initialState,
   reducers: {
     addData: (state, action) => {
-        const products = state.dataList.find((item)=> item.id == action.payload.id)
-    if(!products){
+      const product = state.dataList.find(
+        (item) => item.id == action.payload.id
+      );
+      if (!product) {
         return {
-        ...state,
-        dataList: [...state.dataList, action.payload], count:1,
-      };
+          ...state,
+          dataList: [
+            ...state.dataList,
+            { ...action.payload, UserPrice: action.payload.price, count: 1 },
+          ],
+          dataCount: state.dataCount + 1,
+        };
+      }
+    },
 
-    }
+    incrementPrice: (state, action) => {
+      const newPrice = state.dataList.map((item) => {
+        if (item.id == action.payload.id) {
+          return {
+            ...item,
+            count: item.count + 1,
+            UserPrice: item.price * (item.count + 1),
+          };
+        }
+        return item;
+      });
+      return { ...state, dataList: newPrice };
+    },
+    decrementPrice: (state, action) => {
+      const newPrice = state.dataList.map((item) => {
+        if (item.id == action.payload.id) {
+          return {
+            ...item,
+            count: item.count - 1,
+            UserPrice: item.price * (item.count - 1),
+          };
+        }
+        return item;
+      });
+      return { ...state, dataList: newPrice };
     },
     deleteData: (state, action) => {
-        if(state.dataCount <= 0) {
-return state
-        }
+      if (state.dataCount <= 0) {
+        return state;
+      }
       return {
         ...state,
         dataCount: state.dataCount - 1,
-        dataList: state.dataList.filter(
-          (item) => item.id !== action.payload
-        ),
+        dataList: state.dataList.filter((item) => item.id !== action.payload),
       };
+    },
+    TotalPriceData: (state) => {
+      return {
+        ...state,
+        totalPrice: state.dataList.reduce((a, b) => {
+          return a + b.UserPrice;
+        },0),
+      };
+      return;
     },
   },
 });
 
 export default productReduser.reducer;
 
-export const { addData, deleteData } = productReduser.actions;
+export const { addData, incrementPrice, decrementPrice, deleteData, TotalPriceData } =
+  productReduser.actions;
