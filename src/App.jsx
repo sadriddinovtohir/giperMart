@@ -15,6 +15,7 @@ import LikeData from "./page/profile/like-data";
 import Profile_location from "./page/profile/profile_location";
 import UserCard from "./page/profile/userCard";
 import { ToastContainer } from "react-toastify";
+import { SearchData } from "./layout/header/components/search-data";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="market" element={<Merket />} />
           <Route path="Campaign" element={<Campaign />} />
           <Route path="singleproduct/:id/:path" element={<SingleProduct />} />
+          <Route path="searchdata/:id" element={<SearchData />} />
           <Route
             path="cotalogsinglepage/:path"
             element={<CotalogSinglePage />}

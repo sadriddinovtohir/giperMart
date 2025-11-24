@@ -27,7 +27,13 @@ export default function Form({ page }) {
       toast.success("✅ siz login dan muofaqiyatliy o'tdingiz");
       playSound(nutfications);
     }
-
+ 
+    // if(page == "header"){
+    //    if("header".length <= 2 )
+    //     nav("/SearchData")
+    // }else{
+    //   nav("/home")
+    // }
     reset();
   };
   return (
@@ -60,6 +66,7 @@ export default function Form({ page }) {
             <>
               {size_Searchres ? (
                 <TextField
+                
                   style={{ width: "410px" }}
                   InputProps={{
                     endAdornment: (

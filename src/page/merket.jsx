@@ -10,13 +10,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { playSound } from "../components/notfication/not";
+import { forrmator } from "../config/formator/formator";
 
 export default function Merket() {
   // const size = useMediaQuery("(min-Width:1143px)");
   const nav = useNavigate();
-  const { dataList, dataCount } = useSelector((state) => state.productReduser);
+  const { dataList, dataCount, totalPrice } = useSelector((state) => state.productReduser);
 
   
   const localdata = loadState("user");
@@ -50,7 +49,7 @@ export default function Merket() {
             <Typography>В корзине</Typography>
             <Typography>Товаров: {dataCount}</Typography>
             <Typography color="red">Введите промокод</Typography>
-            <Typography mt={"20px"}>price</Typography>
+            <Typography mt={"20px"}> AllPrice: {forrmator(totalPrice)} UZS</Typography>
           </Stack>
           <Button
             onClick={() => AllPrice()}
