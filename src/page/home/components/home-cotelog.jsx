@@ -2,7 +2,6 @@ import React from "react";
 import useCatalogGet from "../queriy/useCatalogGet";
 import { Stack, Typography } from "@mui/material";
 import Slider from "react-slick";
-
 export default function HomeCotelog() {
   const { data, isLoading, isError, error } = useCatalogGet();
 
@@ -15,38 +14,38 @@ export default function HomeCotelog() {
     speed: 500,
     autoplay: true,
     slidesToShow: 4,
-    slidesToScroll: 3,
-      responsive: [
-    {
-      breakpoint: 1350, 
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        infinite: true,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1350,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+        },
       },
-    },
-    {
-      breakpoint: 1050, 
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
+      {
+        breakpoint: 1050,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
       },
-    },
-    {
-      breakpoint: 738, 
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
+      {
+        breakpoint: 738,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
       },
-    },
-    {
-      breakpoint: 474, 
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
+      {
+        breakpoint: 474,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
       },
-    },
-  ],
+    ],
   };
   return (
     <div>
