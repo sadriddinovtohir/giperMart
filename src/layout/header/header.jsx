@@ -117,7 +117,7 @@ export default function Header() {
                   href="tel:998 90 253 77 53"
                 >
                   <Tel_icons />
-                  +998 90 253 77 53
+                  +998 90 128 33 07
                 </a>
               </Typography>
             </Stack>
