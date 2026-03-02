@@ -39,8 +39,6 @@ export default function ProfileLayout() {
               direction={"row"}
               alignItems={"center"}
               gap={"10px"}
-             
-
             >
               <Cards_icons /> Мои заказы
             </Stack>
