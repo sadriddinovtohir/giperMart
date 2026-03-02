@@ -5,6 +5,8 @@ import {
   Stack,
   TextField,
   useMediaQuery,
+  Paper,
+  Typography,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { saveState } from "../../config/store";
@@ -16,7 +18,12 @@ import { toast } from "react-toastify";
 import { playSound } from "../notfication/not";
 
 export default function Form({ page }) {
-  const { handleSubmit, register, reset } = useForm();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm();
   const size_Search = useMediaQuery("(min-width:1229px )");
   const size_Searchres = useMediaQuery("(min-width:813px )");
   const nav = useNavigate();
@@ -27,7 +34,7 @@ export default function Form({ page }) {
       toast.success("✅ siz login dan muofaqiyatliy o'tdingiz");
       playSound(nutfications);
     }
- 
+
     // if(page == "header"){
     //    if("header".length <= 2 )
     //     nav("/SearchData")
@@ -39,12 +46,32 @@ export default function Form({ page }) {
   return (
     <form onSubmit={handleSubmit(submit)}>
       {page == "login" && (
-        <>
-          <TextField {...register("name")} placeholder="name" />
-          <Button style={{ margin: "10px" }} type="submit" variant="outlined">
-            send
-          </Button>
-        </>
+        <Paper elevation={2} sx={{ p: 3, minWidth: 320 }}>
+          <Stack spacing={2}>
+            <Typography variant="h5">Login</Typography>
+            <TextField
+              label="Name"
+              fullWidth
+              {...register("name", { required: "Name is required" })}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
+            <TextField
+              label="Email or Phone"
+              fullWidth
+              {...register("contact", { required: "Contact is required" })}
+              error={!!errors.contact}
+              helperText={errors.contact?.message}
+            />
+            <Button
+              sx={{ alignSelf: "flex-end" }}
+              type="submit"
+              variant="contained"
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Paper>
       )}
 
       {page == "header" && (
@@ -66,7 +93,6 @@ export default function Form({ page }) {
             <>
               {size_Searchres ? (
                 <TextField
-                
                   style={{ width: "410px" }}
                   InputProps={{
                     endAdornment: (

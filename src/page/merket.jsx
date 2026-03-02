@@ -17,13 +17,14 @@ export default function Merket() {
   const nav = useNavigate();
   const { dataList, dataCount, totalPrice } = useSelector((state) => state.productReduser);
 
-  
   const localdata = loadState("user");
 
-  const AllPrice = () => {
+  const handleCheckout = () => {
     if (!localdata || !localdata.name) {
-      return nav("/login");
+      nav("/login");
+      return;
     }
+    // proceed to checkout flow (to be implemented)
   };
   return (
     <Container>
@@ -33,9 +34,13 @@ export default function Merket() {
         justifyContent={"space-between"}
       >
         <Stack>
-          {dataList?.map((item) => (
-            <CardSum key={item.id} img={item.img} id={item.id} title={item.title} UserPrice={item.UserPrice} rame={item.rame} count={item.count} />
-          ))}
+          {dataList && dataList.length > 0 ? (
+            dataList.map((item) => (
+              <CardSum key={item.id} img={item.img} id={item.id} title={item.title} UserPrice={item.UserPrice} rame={item.rame} count={item.count} />
+            ))
+          ) : (
+            <Typography>Корзина пуста</Typography>
+          )}
         </Stack>
 
         <Stack
@@ -49,13 +54,9 @@ export default function Merket() {
             <Typography>В корзине</Typography>
             <Typography>Товаров: {dataCount}</Typography>
             <Typography color="red">Введите промокод</Typography>
-            <Typography mt={"20px"}> AllPrice: {forrmator(totalPrice)} UZS</Typography>
+            <Typography mt={"20px"}> AllPrice: {forrmator(totalPrice || 0)} UZS</Typography>
           </Stack>
-          <Button
-            onClick={() => AllPrice()}
-            style={{ marginBottom: "1px" }}
-            variant="contained"
-          >
+          <Button onClick={handleCheckout} style={{ marginBottom: "1px" }} variant="contained">
             Оформить заказ
           </Button>
         </Stack>
